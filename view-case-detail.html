@@ -200,6 +200,7 @@
           <div class="horizontal-tabs" style="margin-top: 3rem;">
             <button type="button" class="horizontal-tab case-detail-tab active" data-tab="inspections">Inspections</button>
             <button type="button" class="horizontal-tab case-detail-tab" data-tab="investigations">Investigations</button>
+            <button type="button" class="horizontal-tab case-detail-tab" data-tab="hearings" id="hearings-tab" hidden>Hearings</button>
           </div>
 
           <div class="tab-content">
@@ -233,7 +234,52 @@
             </div>
 
             <div class="tab-panel case-detail-panel" id="investigations-panel">
-              <p>No investigations on record for this case.</p>
+              <button type="button" class="usa-button" id="open-create-investigation-btn">Create Investigation</button>
+
+              <div class="margin-top-2">
+                <div class="usa-accordion usa-accordion--bordered">
+                  <h4 class="usa-accordion__heading">
+                    <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="investigations-icon-key-content">
+                      Icon Key
+                    </button>
+                  </h4>
+                  <div id="investigations-icon-key-content" class="usa-accordion__content usa-prose" hidden>
+                    <p class="text-bold margin-0 margin-bottom-2">Options and Control Types</p>
+                    <div class="icon-key-grid">
+                      <div class="icon-key-item">
+                        <img src="assets/edit-icon.png" alt="" width="24" height="24">
+                        <span>- Edit Investigation</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="margin-top-2">
+                <table class="usa-table usa-table--borderless usa-table--striped" id="investigations-table" style="width: 100%;">
+                  <thead>
+                    <tr>
+                      <th scope="col">Investigation ID</th>
+                      <th scope="col">Investigation Title</th>
+                      <th scope="col">Investigation Status</th>
+                      <th scope="col">Assigned Investigator</th>
+                      <th scope="col">Start Date</th>
+                      <th scope="col">Completion Date</th>
+                      <th scope="col">Controls</th>
+                    </tr>
+                  </thead>
+                  <tbody id="investigations-tbody">
+                    <tr id="investigations-empty-row">
+                      <td colspan="7">No investigations on record for this case.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="tab-panel case-detail-panel" id="hearings-panel">
+              <button type="button" class="usa-button" id="open-create-hearing-btn">Create Hearing</button>
+              <p class="margin-top-2">No hearings on record for this case.</p>
             </div>
           </div>
 
@@ -298,7 +344,7 @@
           <hr>
 
           <p>Add notes to document observations, updates, or other relevant information for this case.</p>
-          <button type="button" class="usa-button" id="open-add-note-btn">Add Note</button>
+          <button type="button" class="usa-button" id="open-add-note-btn">Create Note</button>
 
           <div class="margin-top-2">
             <div class="usa-accordion usa-accordion--bordered">
@@ -580,7 +626,7 @@
 
   <script>
     const caseData = {
-      'CM-2026-0347': { dateReceived: '04/28/2026', caseSubject: 'Johnson, Marcus',          status: 'Open',    assignedTo: 'Unassigned',    complainantName: 'Smith, Robert',      licenseNumber: 'PI-2024-00892', physicalAddress: '1200 W 3rd St, Little Rock, AR 72201',      emailAddress: 'm.johnson@email.com',           filingMethod: 'Online',           incidentDate: '04/15/2026', caseType: 'Complaint' },
+      'CM-2026-0347': { dateReceived: '04/28/2026', caseSubject: 'Johnson, Marcus',          status: 'Open',    assignedTo: 'Unassigned',    complainantName: 'Smith, Robert',      licenseNumber: 'PI-2024-00892', physicalAddress: '1200 W 3rd St, Little Rock, AR 72201',      emailAddress: 'm.johnson@email.com',           filingMethod: 'Online',           incidentDate: '04/15/2026', caseType: 'Appeal' },
       'CM-2026-0348': { dateReceived: '04/29/2026', caseSubject: 'Lone Star Security, Inc.', status: 'Open',    assignedTo: 'Sgt. Williams', complainantName: 'Davis, Patricia',    licenseNumber: 'SB-2023-01145', physicalAddress: '4201 Rogers Ave, Fort Smith, AR 72903',     emailAddress: 'lonestar@security.com',         filingMethod: 'Telephone',        incidentDate: '04/20/2026', caseType: 'Complaint' },
       'CM-2026-0349': { dateReceived: '05/01/2026', caseSubject: 'Carter, Dennis',           status: 'Open',    assignedTo: 'Unassigned',    complainantName: 'Williams, Karen',    licenseNumber: 'PI-2025-00234', physicalAddress: '318 N College Ave, Fayetteville, AR 72701', emailAddress: 'd.carter@email.com',            filingMethod: 'Mail',             incidentDate: '04/25/2026', caseType: 'Complaint' },
       'CM-2026-0312': { dateReceived: '04/10/2026', caseSubject: 'Delta Force Protection LLC', status: 'Pending', assignedTo: 'Sgt. Thompson', complainantName: 'Thompson, James', licenseNumber: 'SB-2022-00671', physicalAddress: '800 W Sunset Ave, Springdale, AR 72764',    emailAddress: 'info@deltaforceprotection.com', filingMethod: 'Email',            incidentDate: '04/01/2026', caseType: 'Complaint' },
@@ -621,7 +667,11 @@
       const statusEl = document.getElementById('content-status');
       statusEl.textContent = c.status;
       statusEl.className = statusClassMap[c.status] || '';
-      document.getElementById('header-case-type').textContent = c.caseType || 'Complaint';
+      const caseType = c.caseType || 'Complaint';
+      document.getElementById('header-case-type').textContent = caseType;
+      if (caseType === 'Appeal') {
+        document.getElementById('hearings-tab').removeAttribute('hidden');
+      }
       document.getElementById('content-description').textContent = c.description || document.getElementById('content-description').textContent;
       if (c.legacyCaseNumber) { document.getElementById('input-legacy-case-number').value = c.legacyCaseNumber; }
       updateActionButtons(c.status);
@@ -738,6 +788,48 @@
       closeAddNoteModal();
       showNotification('Note added successfully.');
     });
+
+    document.getElementById('open-create-investigation-btn').addEventListener('click', () => {
+      window.location.href = 'create-investigation.html?case=' + encodeURIComponent(caseNumber);
+    });
+
+    function formatDate(val) {
+      if (!val) return '—';
+      const [y, m, d] = val.split('-');
+      return m + '/' + d + '/' + y;
+    }
+
+    function loadInvestigations() {
+      const investigations = JSON.parse(sessionStorage.getItem('investigations_' + caseNumber) || '[]');
+      if (!investigations.length) return;
+      const tbody = document.getElementById('investigations-tbody');
+      document.getElementById('investigations-empty-row').remove();
+      investigations.forEach(inv => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${inv.id}</td>
+          <td>${inv.title}</td>
+          <td>${inv.status}</td>
+          <td>${inv.assignedTo}</td>
+          <td>${formatDate(inv.startDate)}</td>
+          <td>${formatDate(inv.completionDate)}</td>
+          <td><a href="#" class="icon-button" aria-label="Edit Investigation"><img src="assets/edit-icon.png" alt="Edit" width="24" height="24"></a></td>`;
+        tbody.appendChild(row);
+      });
+    }
+    loadInvestigations();
+
+    const activeTab = new URLSearchParams(window.location.search).get('tab');
+    if (activeTab) {
+      const tabBtn = document.querySelector(`.case-detail-tab[data-tab="${activeTab}"]`);
+      const tabPanel = document.getElementById(activeTab + '-panel');
+      if (tabBtn && tabPanel) {
+        document.querySelectorAll('.case-detail-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.case-detail-panel').forEach(p => p.classList.remove('active'));
+        tabBtn.classList.add('active');
+        tabPanel.classList.add('active');
+      }
+    }
 
     // Inspections / Investigations tab switching
     document.querySelectorAll('.case-detail-tab').forEach(tab => {

@@ -220,6 +220,7 @@
               <th scope="col" role="columnheader" aria-sort="none">Case Number <span class="sort-arrows"></span></th>
               <th scope="col" role="columnheader" aria-sort="none">Date Received <span class="sort-arrows"></span></th>
               <th scope="col" role="columnheader" aria-sort="none">Case Subject <span class="sort-arrows"></span></th>
+              <th scope="col" role="columnheader" aria-sort="none">Case Type <span class="sort-arrows"></span></th>
               <th scope="col" role="columnheader" aria-sort="none">Status <span class="sort-arrows"></span></th>
               <th scope="col" role="columnheader" aria-sort="none">Assigned To <span class="sort-arrows"></span></th>
               <th scope="col">Controls</th>
@@ -231,6 +232,7 @@
               <td>CM-2026-0347</td>
               <td>04/28/2026</td>
               <td>Johnson, Marcus</td>
+              <td>Appeal</td>
               <td><span class="status-open">Open</span></td>
               <td>Unassigned</td>
               <td>
@@ -242,6 +244,7 @@
               <td>CM-2026-0348</td>
               <td>04/29/2026</td>
               <td>Lone Star Security, Inc.</td>
+              <td>Complaint</td>
               <td><span class="status-open">Open</span></td>
               <td>Sgt. Williams</td>
               <td>
@@ -253,6 +256,7 @@
               <td>CM-2026-0349</td>
               <td>05/01/2026</td>
               <td>Carter, Dennis</td>
+              <td>Complaint</td>
               <td><span class="status-open">Open</span></td>
               <td>Unassigned</td>
               <td>
@@ -265,6 +269,7 @@
               <td>CM-2026-0312</td>
               <td>04/10/2026</td>
               <td>Delta Force Protection LLC</td>
+              <td>Complaint</td>
               <td><span class="status-pending">Pending</span></td>
               <td>Sgt. Thompson</td>
               <td>
@@ -277,6 +282,7 @@
               <td>CM-2026-0318</td>
               <td>04/14/2026</td>
               <td>Williams, James</td>
+              <td>Complaint</td>
               <td><span class="status-pending">Pending</span></td>
               <td>Agent Harris</td>
               <td>
@@ -289,6 +295,7 @@
               <td>CM-2026-0325</td>
               <td>04/19/2026</td>
               <td>Premier Security Group</td>
+              <td>Complaint</td>
               <td><span class="status-pending">Pending</span></td>
               <td>Sgt. Williams</td>
               <td>
@@ -302,6 +309,7 @@
               <td>CM-2026-0280</td>
               <td>03/15/2026</td>
               <td>Roberts, Kevin</td>
+              <td>Complaint</td>
               <td><span class="status-archived">Closed</span></td>
               <td>Agent Davis</td>
               <td>
@@ -312,6 +320,7 @@
               <td>CM-2026-0295</td>
               <td>03/22/2026</td>
               <td>Stone Security Services</td>
+              <td>Complaint</td>
               <td><span class="status-archived">Closed</span></td>
               <td>Sgt. Thompson</td>
               <td>
@@ -322,6 +331,7 @@
               <td>CM-2026-0301</td>
               <td>03/28/2026</td>
               <td>Adams, Patricia</td>
+              <td>Complaint</td>
               <td><span class="status-archived">Closed</span></td>
               <td>Agent Harris</td>
               <td>
@@ -459,6 +469,7 @@
           <td>${newCaseNum}</td>
           <td>${obj.dateReceived}</td>
           <td>${obj.caseSubject !== '—' ? obj.caseSubject : '—'}</td>
+          <td>${obj.caseType || 'Complaint'}</td>
           <td><span class="status-pending">Pending</span></td>
           <td>${obj.assignedTo}</td>
           <td>

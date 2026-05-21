@@ -128,6 +128,24 @@
       </div>
 
       <div class="grid-row grid-gap-4" style="margin-top: 3rem;">
+        <div class="tablet:grid-col-8">
+          <fieldset class="usa-fieldset">
+            <legend class="usa-legend">Case Type <span class="field-required">Required</span></legend>
+            <div class="usa-radio usa-radio--tile" style="display: inline-flex; gap: 1rem;">
+              <div class="usa-radio">
+                <input class="usa-radio__input" id="case-type-complaint" type="radio" name="case-type" value="Complaint" required>
+                <label class="usa-radio__label" for="case-type-complaint">Complaint</label>
+              </div>
+              <div class="usa-radio">
+                <input class="usa-radio__input" id="case-type-appeal" type="radio" name="case-type" value="Appeal">
+                <label class="usa-radio__label" for="case-type-appeal">Appeal</label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      <div class="grid-row grid-gap-4" style="margin-top: 2rem;">
         <div class="tablet:grid-col-4">
           <label class="usa-label" for="priority">Priority <span class="field-required">Required</span></label>
           <select class="usa-select" id="priority" name="priority" required>
@@ -161,7 +179,7 @@
       <hr>
 
       <div class="margin-top-2">
-        <button type="button" class="usa-button" id="open-add-subject-btn">Add Case Subject</button>
+        <button type="button" class="usa-button" id="open-add-subject-btn">Create Case Subject</button>
       </div>
 
       <div id="case-subjects-table-container" style="display: none; margin-top: 2rem;">
