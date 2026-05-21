@@ -613,8 +613,8 @@
       const newCase = {
         dateReceived: document.getElementById('date-received-display').textContent,
         caseSubject: subjectName,
-        status: 'Open',
-        assignedTo: 'Unassigned',
+        status: 'Pending',
+        assignedTo: 'Sgt. Peacock',
         complainantName: complainantName,
         licenseNumber: licenseNumber,
         physicalAddress: practiceAddress,
@@ -629,7 +629,8 @@
       };
       const cn = document.getElementById('case-number-display').textContent;
       sessionStorage.setItem('case_' + cn, JSON.stringify(newCase));
-      window.location.href = 'view-case-detail.html?case=' + encodeURIComponent(cn);
+      sessionStorage.setItem('newCaseCreated', cn);
+      window.location.href = 'view-cases.html';
     });
 
     document.getElementById('case-subjects-tbody').addEventListener('click', e => {

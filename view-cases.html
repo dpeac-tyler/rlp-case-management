@@ -447,10 +447,43 @@
       });
     });
 
-    // Restore saved filter on load
-    const savedFilter = sessionStorage.getItem('caseFilter');
-    if (savedFilter) {
-      applyFilter(savedFilter);
+    // Handle newly created case
+    const newCaseNum = sessionStorage.getItem('newCaseCreated');
+    if (newCaseNum) {
+      const stored = sessionStorage.getItem('case_' + newCaseNum);
+      if (stored) {
+        const obj = JSON.parse(stored);
+        const row = document.createElement('tr');
+        row.setAttribute('data-status', 'pending');
+        row.innerHTML = `
+          <td>${newCaseNum}</td>
+          <td>${obj.dateReceived}</td>
+          <td>${obj.caseSubject !== '—' ? obj.caseSubject : '—'}</td>
+          <td><span class="status-pending">Pending</span></td>
+          <td>${obj.assignedTo}</td>
+          <td>
+            <a href="#" class="icon-button" aria-label="View Case"><img src="assets/eye-icon.png" alt="" width="30" height="30"></a>
+            <a href="#" class="icon-button" aria-label="Edit Case"><img src="assets/edit-icon.png" alt="" width="30" height="30"></a>
+            <a href="#" class="icon-button" aria-label="Unclaim Case"><img src="assets/unclaim-case.png" alt="" width="30" height="30"></a>
+          </td>`;
+        document.querySelector('#cases-table tbody').appendChild(row);
+      }
+      sessionStorage.removeItem('newCaseCreated');
+      applyFilter('pending');
+      const notif = document.getElementById('success-notification');
+      document.getElementById('notification-text').textContent = 'Case ' + newCaseNum + ' created successfully.';
+      notif.removeAttribute('hidden');
+      setTimeout(() => notif.classList.add('show'), 10);
+      setTimeout(() => {
+        notif.classList.remove('show');
+        notif.classList.add('hide');
+        setTimeout(() => { notif.classList.remove('hide'); notif.setAttribute('hidden', ''); }, 400);
+      }, 4000);
+    } else {
+      const savedFilter = sessionStorage.getItem('caseFilter');
+      if (savedFilter) {
+        applyFilter(savedFilter);
+      }
     }
   </script>
 </body>
