@@ -122,8 +122,9 @@
 
         <div class="task-control-actions">
           <div class="task-controls">
-            <button type="button" class="usa-button" id="close-case-btn">Close Case</button>
-            <button type="button" class="usa-button usa-button--accent-cool button-right" id="unclaim-btn">Unclaim Complaint</button>
+            <button type="button" class="usa-button" id="claim-case-btn" style="display: none;">Claim Case</button>
+            <button type="button" class="usa-button" id="close-case-btn" style="display: none;">Close Case</button>
+            <button type="button" class="usa-button usa-button--accent-cool button-right" id="unclaim-btn" style="display: none;">Unclaim Case</button>
           </div>
         </div>
 
@@ -427,6 +428,77 @@
     </div>
   </div>
 
+  <!-- Close Case Modal -->
+  <div id="close-case-modal" class="modal-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="close-case-modal-title">
+    <div class="modal-content" style="max-width: 600px;">
+      <div class="modal-header">
+        <h2 class="modal-title" id="close-case-modal-title">Close Case</h2>
+        <button type="button" class="modal-close" id="close-case-modal-close" aria-label="Close modal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Select one or more outcomes that apply to this case.</p>
+        <div class="margin-bottom-2">
+          <label class="usa-label text-bold">Case Outcome <span class="field-required">Required</span></label>
+          <div style="border: 1px solid #dfe1e2; max-height: 220px; overflow-y: auto; padding: 1rem 1.5rem;">
+            <div style="padding: 0.6rem 0; display: flex; align-items: center; gap: 1rem;">
+              <input type="checkbox" class="outcome-checkbox" id="outcome-cease-desist" value="Cease &amp; Desist Letter" style="width: 1.8rem; height: 1.8rem; cursor: pointer; flex-shrink: 0;">
+              <label for="outcome-cease-desist" style="cursor: pointer; font-size: 1.6rem;">Cease &amp; Desist Letter</label>
+            </div>
+            <div style="padding: 0.6rem 0; display: flex; align-items: center; gap: 1rem;">
+              <input type="checkbox" class="outcome-checkbox" id="outcome-civil" value="Civil Issue" style="width: 1.8rem; height: 1.8rem; cursor: pointer; flex-shrink: 0;">
+              <label for="outcome-civil" style="cursor: pointer; font-size: 1.6rem;">Civil Issue</label>
+            </div>
+            <div style="padding: 0.6rem 0; display: flex; align-items: center; gap: 1rem;">
+              <input type="checkbox" class="outcome-checkbox" id="outcome-consent" value="Consent Decree / Fine" style="width: 1.8rem; height: 1.8rem; cursor: pointer; flex-shrink: 0;">
+              <label for="outcome-consent" style="cursor: pointer; font-size: 1.6rem;">Consent Decree / Fine</label>
+            </div>
+            <div style="padding: 0.6rem 0; display: flex; align-items: center; gap: 1rem;">
+              <input type="checkbox" class="outcome-checkbox" id="outcome-criminal" value="Criminal Charge" style="width: 1.8rem; height: 1.8rem; cursor: pointer; flex-shrink: 0;">
+              <label for="outcome-criminal" style="cursor: pointer; font-size: 1.6rem;">Criminal Charge</label>
+            </div>
+            <div style="padding: 0.6rem 0; display: flex; align-items: center; gap: 1rem;">
+              <input type="checkbox" class="outcome-checkbox" id="outcome-dismissed" value="Dismissed" style="width: 1.8rem; height: 1.8rem; cursor: pointer; flex-shrink: 0;">
+              <label for="outcome-dismissed" style="cursor: pointer; font-size: 1.6rem;">Dismissed</label>
+            </div>
+            <div style="padding: 0.6rem 0; display: flex; align-items: center; gap: 1rem;">
+              <input type="checkbox" class="outcome-checkbox" id="outcome-revocation" value="Revocation" style="width: 1.8rem; height: 1.8rem; cursor: pointer; flex-shrink: 0;">
+              <label for="outcome-revocation" style="cursor: pointer; font-size: 1.6rem;">Revocation</label>
+            </div>
+            <div style="padding: 0.6rem 0; display: flex; align-items: center; gap: 1rem;">
+              <input type="checkbox" class="outcome-checkbox" id="outcome-suspension" value="Suspension" style="width: 1.8rem; height: 1.8rem; cursor: pointer; flex-shrink: 0;">
+              <label for="outcome-suspension" style="cursor: pointer; font-size: 1.6rem;">Suspension</label>
+            </div>
+            <div style="padding: 0.6rem 0; display: flex; align-items: center; gap: 1rem;">
+              <input type="checkbox" class="outcome-checkbox" id="outcome-unfounded" value="Unfounded" style="width: 1.8rem; height: 1.8rem; cursor: pointer; flex-shrink: 0;">
+              <label for="outcome-unfounded" style="cursor: pointer; font-size: 1.6rem;">Unfounded</label>
+            </div>
+            <div style="padding: 0.6rem 0; display: flex; align-items: center; gap: 1rem;">
+              <input type="checkbox" class="outcome-checkbox" id="outcome-warning" value="Warning Letter" style="width: 1.8rem; height: 1.8rem; cursor: pointer; flex-shrink: 0;">
+              <label for="outcome-warning" style="cursor: pointer; font-size: 1.6rem;">Warning Letter</label>
+            </div>
+          </div>
+        </div>
+        <div style="background: #f0f0f0; padding: 1rem 1.5rem; margin-bottom: 1.5rem; min-height: 5rem;">
+          <strong>Selected Outcomes:</strong>
+          <div id="selected-outcomes-list" style="margin-top: 0.5rem; color: #666; font-size: 1.6rem;">None selected</div>
+        </div>
+        <div class="usa-alert usa-alert--warning" role="alert">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">This action cannot be undone. Please ensure all relevant documents and notes have been added before closing the case.</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="usa-button" id="close-case-confirm-btn" disabled>Close Case</button>
+        <button type="button" class="usa-button usa-button--secondary" id="close-case-modal-cancel-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Add Note Modal -->
   <div id="add-note-modal" class="modal-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="add-note-modal-title">
     <div class="modal-content" style="max-width: 600px;">
@@ -552,6 +624,7 @@
       document.getElementById('header-case-type').textContent = c.caseType || 'Complaint';
       document.getElementById('content-description').textContent = c.description || document.getElementById('content-description').textContent;
       if (c.legacyCaseNumber) { document.getElementById('input-legacy-case-number').value = c.legacyCaseNumber; }
+      updateActionButtons(c.status);
     }
 
     // Notification helper
@@ -708,11 +781,85 @@
       window.location.href = 'view-cases.html';
     });
 
+    function updateActionButtons(status) {
+      document.getElementById('claim-case-btn').style.display = 'none';
+      document.getElementById('close-case-btn').style.display = 'none';
+      document.getElementById('unclaim-btn').style.display = 'none';
+      if (status === 'Open') {
+        document.getElementById('claim-case-btn').style.display = '';
+      } else if (status === 'Pending') {
+        document.getElementById('close-case-btn').style.display = '';
+        document.getElementById('unclaim-btn').style.display = '';
+      }
+    }
+
+    document.getElementById('claim-case-btn').addEventListener('click', () => {
+      document.getElementById('header-assigned-to').textContent = 'Sgt. Peacock';
+      const statusEl = document.getElementById('content-status');
+      statusEl.textContent = 'Pending';
+      statusEl.className = 'status-pending';
+      updateActionButtons('Pending');
+      if (dynamicCase) {
+        const stored = sessionStorage.getItem('case_' + caseNumber);
+        if (stored) {
+          const obj = JSON.parse(stored);
+          obj.status = 'Pending'; obj.assignedTo = 'Sgt. Peacock';
+          sessionStorage.setItem('case_' + caseNumber, JSON.stringify(obj));
+        }
+      }
+      showNotification('Case ' + caseNumber + ' Successfully Claimed.');
+    });
+
     document.getElementById('close-case-btn').addEventListener('click', () => {
+      document.getElementById('close-case-modal').removeAttribute('hidden');
+    });
+
+    document.getElementById('unclaim-btn').addEventListener('click', () => {
+      document.getElementById('header-assigned-to').textContent = 'Unassigned';
+      const statusEl = document.getElementById('content-status');
+      statusEl.textContent = 'Open';
+      statusEl.className = 'status-open';
+      updateActionButtons('Open');
+      if (dynamicCase) {
+        const stored = sessionStorage.getItem('case_' + caseNumber);
+        if (stored) {
+          const obj = JSON.parse(stored);
+          obj.status = 'Open'; obj.assignedTo = 'Unassigned';
+          sessionStorage.setItem('case_' + caseNumber, JSON.stringify(obj));
+        }
+      }
+      showNotification('Case ' + caseNumber + ' successfully unclaimed.');
+    });
+
+    // Close Case modal
+    function updateOutcomesDisplay() {
+      const checked = Array.from(document.querySelectorAll('.outcome-checkbox:checked')).map(cb => cb.value);
+      document.getElementById('selected-outcomes-list').textContent = checked.length ? checked.join(', ') : 'None selected';
+      document.getElementById('close-case-confirm-btn').disabled = checked.length === 0;
+    }
+
+    document.querySelectorAll('.outcome-checkbox').forEach(cb => {
+      cb.addEventListener('change', updateOutcomesDisplay);
+    });
+
+    function closeCloseCaseModal() {
+      document.getElementById('close-case-modal').setAttribute('hidden', '');
+      document.querySelectorAll('.outcome-checkbox').forEach(cb => cb.checked = false);
+      document.getElementById('selected-outcomes-list').textContent = 'None selected';
+      document.getElementById('close-case-confirm-btn').disabled = true;
+    }
+
+    document.getElementById('close-case-modal-close').addEventListener('click', closeCloseCaseModal);
+    document.getElementById('close-case-modal-cancel-btn').addEventListener('click', closeCloseCaseModal);
+    document.getElementById('close-case-modal').addEventListener('click', e => {
+      if (e.target === document.getElementById('close-case-modal')) closeCloseCaseModal();
+    });
+
+    document.getElementById('close-case-confirm-btn').addEventListener('click', () => {
       const statusEl = document.getElementById('content-status');
       statusEl.textContent = 'Closed';
       statusEl.className = 'status-archived';
-      showNotification('Case closed successfully.');
+      updateActionButtons('Closed');
       if (dynamicCase) {
         const stored = sessionStorage.getItem('case_' + caseNumber);
         if (stored) {
@@ -721,11 +868,8 @@
           sessionStorage.setItem('case_' + caseNumber, JSON.stringify(obj));
         }
       }
-    });
-
-    document.getElementById('unclaim-btn').addEventListener('click', () => {
-      document.getElementById('header-assigned-to').textContent = 'Unassigned';
-      showNotification('Case unclaimed successfully.');
+      closeCloseCaseModal();
+      showNotification('Case ' + caseNumber + ' closed successfully.');
     });
 
     document.getElementById('documents-tbody').addEventListener('click', e => {
