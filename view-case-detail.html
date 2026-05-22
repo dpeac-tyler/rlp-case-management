@@ -279,7 +279,48 @@
 
             <div class="tab-panel case-detail-panel" id="hearings-panel">
               <button type="button" class="usa-button" id="open-create-hearing-btn">Create Hearing</button>
-              <p class="margin-top-2">No hearings on record for this case.</p>
+
+              <div class="margin-top-2">
+                <div class="usa-accordion usa-accordion--bordered">
+                  <h4 class="usa-accordion__heading">
+                    <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="hearings-icon-key-content">
+                      Icon Key
+                    </button>
+                  </h4>
+                  <div id="hearings-icon-key-content" class="usa-accordion__content usa-prose" hidden>
+                    <p class="text-bold margin-0 margin-bottom-2">Options and Control Types</p>
+                    <div class="icon-key-grid">
+                      <div class="icon-key-item">
+                        <img src="assets/eye-icon.png" alt="" width="24" height="24">
+                        <span>- View Hearing</span>
+                      </div>
+                      <div class="icon-key-item">
+                        <img src="assets/icon-delete.png" alt="" width="24" height="24">
+                        <span>- Delete Hearing</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="margin-top-2">
+                <table class="usa-table usa-table--borderless usa-table--striped" id="hearings-table" style="width: 100%;">
+                  <thead>
+                    <tr>
+                      <th scope="col">Hearing Date</th>
+                      <th scope="col">Hearing Time</th>
+                      <th scope="col">Hearing Location</th>
+                      <th scope="col">Hearing Officer</th>
+                      <th scope="col">Controls</th>
+                    </tr>
+                  </thead>
+                  <tbody id="hearings-tbody">
+                    <tr id="hearings-empty-row">
+                      <td colspan="5">No hearings on record for this case.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 
@@ -612,6 +653,42 @@
       <div class="modal-footer">
         <button type="button" class="usa-button" id="upload-document-submit-btn">Upload Document</button>
         <button type="button" class="usa-button usa-button--secondary" id="upload-document-cancel-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Hearing Modal -->
+  <div id="create-hearing-modal" class="modal-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="create-hearing-modal-title">
+    <div class="modal-content" style="max-width: 600px;">
+      <div class="modal-header">
+        <h2 class="modal-title" id="create-hearing-modal-title">Create Hearing</h2>
+        <button type="button" class="modal-close" id="create-hearing-modal-close" aria-label="Close modal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="margin-bottom-2">
+          <label class="usa-label" for="hearing-date">Hearing Date <span class="field-required">Required</span></label>
+          <input class="usa-input" id="hearing-date" name="hearing-date" type="date">
+        </div>
+        <div class="margin-bottom-2">
+          <label class="usa-label" for="hearing-time">Hearing Time <span class="field-required">Required</span></label>
+          <input class="usa-input" id="hearing-time" name="hearing-time" type="time">
+        </div>
+        <div class="margin-bottom-2">
+          <label class="usa-label" for="hearing-location">Hearing Location <span class="field-required">Required</span></label>
+          <input class="usa-input" id="hearing-location" name="hearing-location" type="text">
+        </div>
+        <div class="margin-bottom-2">
+          <label class="usa-label" for="hearing-officer">Hearing Officer <span class="field-required">Required</span></label>
+          <input class="usa-input" id="hearing-officer" name="hearing-officer" type="text">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="usa-button" id="save-hearing-btn">Save</button>
+        <button type="button" class="usa-button usa-button--secondary" id="create-hearing-cancel-btn">Cancel</button>
       </div>
     </div>
   </div>
@@ -1065,6 +1142,73 @@
       document.getElementById('content-physical-address').textContent = s.practiceAddress;
       showNotification('Case subject updated successfully.');
       closeEditSubjectModal();
+    });
+
+    // Create Hearing modal
+    const createHearingModal = document.getElementById('create-hearing-modal');
+
+    function closeCreateHearingModal() {
+      createHearingModal.setAttribute('hidden', '');
+      document.getElementById('hearing-date').value = '';
+      document.getElementById('hearing-time').value = '';
+      document.getElementById('hearing-location').value = '';
+      document.getElementById('hearing-officer').value = '';
+    }
+
+    document.getElementById('open-create-hearing-btn').addEventListener('click', () => {
+      createHearingModal.removeAttribute('hidden');
+    });
+
+    document.getElementById('create-hearing-modal-close').addEventListener('click', closeCreateHearingModal);
+    document.getElementById('create-hearing-cancel-btn').addEventListener('click', closeCreateHearingModal);
+    createHearingModal.addEventListener('click', e => { if (e.target === createHearingModal) closeCreateHearingModal(); });
+
+    function formatTime12h(val) {
+      if (!val) return '—';
+      const [h, m] = val.split(':').map(Number);
+      const period = h >= 12 ? 'PM' : 'AM';
+      const hour = h % 12 || 12;
+      return hour + ':' + String(m).padStart(2, '0') + ' ' + period;
+    }
+
+    function formatDateDisplay(val) {
+      if (!val) return '—';
+      const [y, m, d] = val.split('-');
+      return m + '/' + d + '/' + y;
+    }
+
+    document.getElementById('save-hearing-btn').addEventListener('click', () => {
+      const date     = document.getElementById('hearing-date').value;
+      const time     = document.getElementById('hearing-time').value;
+      const location = document.getElementById('hearing-location').value.trim();
+      const officer  = document.getElementById('hearing-officer').value.trim();
+      if (!date || !time || !location || !officer) {
+        alert('Please complete all required fields.');
+        return;
+      }
+      const emptyRow = document.getElementById('hearings-empty-row');
+      if (emptyRow) emptyRow.remove();
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${formatDateDisplay(date)}</td>
+        <td>${formatTime12h(time)}</td>
+        <td>${location}</td>
+        <td>${officer}</td>
+        <td>
+          <a href="#" class="icon-button" aria-label="View Hearing"><img src="assets/eye-icon.png" alt="" width="30" height="30"></a>
+          <a href="#" class="icon-button" aria-label="Delete Hearing"><img src="assets/icon-delete.png" alt="" width="30" height="30"></a>
+        </td>`;
+      document.getElementById('hearings-tbody').appendChild(row);
+      closeCreateHearingModal();
+      showNotification('Hearing created successfully.');
+    });
+
+    document.getElementById('hearings-tbody').addEventListener('click', e => {
+      const btn = e.target.closest('[aria-label="Delete Hearing"]');
+      if (btn) {
+        e.preventDefault();
+        btn.closest('tr').remove();
+      }
     });
   </script>
 </body>
