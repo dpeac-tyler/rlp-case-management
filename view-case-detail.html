@@ -88,7 +88,7 @@
       </ul>
     </nav>
 
-    <main id="main-content" class="grid-container">
+    <main id="main-content" class="grid-container" style="background: #f9f9f7;">
       <nav class="usa-breadcrumb margin-top-2" aria-label="Breadcrumbs">
         <ol class="usa-breadcrumb__list">
           <li class="usa-breadcrumb__list-item">
@@ -109,6 +109,7 @@
         <p>Review and manage case information, documents, and notes.</p>
       </div>
 
+      <!-- ── Section 1: Case Information ───────────────────────────────── -->
       <div class="task-container margin-top-2">
         <div class="task-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
           <div>
@@ -323,8 +324,15 @@
               </div>
             </div>
           </div>
+        </div>
 
-          <h3 style="margin-top: 3rem;">Section 2: Documents</h3>
+        <div style="padding-bottom: 3rem;"></div>
+      </div>
+
+      <!-- ── Section 2: Documents ───────────────────────────────────────── -->
+      <div class="task-container" style="margin-top: 30px;">
+        <div class="task-content-section">
+          <h3>Section 2: Documents</h3>
           <hr>
 
           <p>Upload supporting documents for this case.</p>
@@ -380,8 +388,15 @@
               </tbody>
             </table>
           </div>
+        </div>
 
-          <h3 style="margin-top: 3rem;">Section 3: Notes</h3>
+        <div style="padding-bottom: 3rem;"></div>
+      </div>
+
+      <!-- ── Section 3: Notes ───────────────────────────────────────────── -->
+      <div class="task-container" style="margin-top: 30px;">
+        <div class="task-content-section">
+          <h3>Section 3: Notes</h3>
           <hr>
 
           <p>Add notes to document observations, updates, or other relevant information for this case.</p>
@@ -433,13 +448,15 @@
         <div style="padding-bottom: 3rem;"></div>
       </div>
 
-      <div class="margin-top-2" style="display: flex; justify-content: space-between; align-items: center;">
-        <div>
-          <button type="button" class="usa-button" id="save-case-btn">Save Case</button>
-          <button type="button" class="usa-button usa-button--outline" id="cancel-btn">Cancel</button>
-        </div>
-        <div>
-          <button type="button" class="usa-button usa-button--accent-warm">Generate Invoice</button>
+      <div class="task-container" style="margin-top: 30px;">
+        <div class="task-content-section" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px;">
+          <div>
+            <button type="button" class="usa-button" id="save-case-btn">Save Case</button>
+            <button type="button" class="usa-button usa-button--outline" id="cancel-btn">Cancel</button>
+          </div>
+          <div>
+            <button type="button" class="usa-button usa-button--accent-warm">Generate Invoice</button>
+          </div>
         </div>
       </div>
 
