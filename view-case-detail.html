@@ -126,7 +126,7 @@
             <button type="button" class="usa-button" id="claim-case-btn" style="display: none;">Claim Case</button>
             <button type="button" class="usa-button" id="close-case-btn" style="display: none;">Close Case</button>
             <button type="button" class="usa-button usa-button--accent-cool button-right" id="unclaim-btn" style="display: none;">Unclaim Case</button>
-            <button type="button" class="usa-button" id="reopen-case-btn" style="display: none;">Reopen Case</button>
+            <button type="button" class="usa-button" id="reopen-task-btn" style="display: none;">Reopen Task</button>
           </div>
         </div>
 
@@ -972,14 +972,14 @@
       document.getElementById('claim-case-btn').style.display = 'none';
       document.getElementById('close-case-btn').style.display = 'none';
       document.getElementById('unclaim-btn').style.display = 'none';
-      document.getElementById('reopen-case-btn').style.display = 'none';
+      document.getElementById('reopen-task-btn').style.display = 'none';
       if (status === 'Open') {
         document.getElementById('claim-case-btn').style.display = '';
       } else if (status === 'Pending') {
         document.getElementById('close-case-btn').style.display = '';
         document.getElementById('unclaim-btn').style.display = '';
       } else if (status === 'Closed') {
-        document.getElementById('reopen-case-btn').style.display = '';
+        document.getElementById('reopen-task-btn').style.display = '';
       }
     }
 
@@ -1019,23 +1019,6 @@
         }
       }
       showNotification('Case ' + caseNumber + ' successfully unclaimed.');
-    });
-
-    document.getElementById('reopen-case-btn').addEventListener('click', () => {
-      document.getElementById('header-assigned-to').textContent = 'Unassigned';
-      const statusEl = document.getElementById('content-status');
-      statusEl.textContent = 'Open';
-      statusEl.className = 'status-open';
-      updateActionButtons('Open');
-      if (dynamicCase) {
-        const stored = sessionStorage.getItem('case_' + caseNumber);
-        if (stored) {
-          const obj = JSON.parse(stored);
-          obj.status = 'Open'; obj.assignedTo = 'Unassigned';
-          sessionStorage.setItem('case_' + caseNumber, JSON.stringify(obj));
-        }
-      }
-      showNotification('Case ' + caseNumber + ' successfully reopened.');
     });
 
     // Close Case modal
