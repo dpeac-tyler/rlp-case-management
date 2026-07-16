@@ -154,27 +154,10 @@
               <div id="content-complainant-name">Smith, Robert</div>
             </div>
             <div class="tablet:grid-col-4">
-              <div class="text-bold">Case Subject Name</div>
-              <div id="content-case-subject-name">Johnson, Marcus</div>
-            </div>
-            <div class="tablet:grid-col-4">
-              <div class="text-bold">License Number</div>
-              <div id="content-license-number">PI-2024-00892</div>
-            </div>
-          </div>
-
-          <div class="grid-row grid-gap-4" style="margin-top: 3rem;">
-            <div class="tablet:grid-col-4">
-              <div class="text-bold">Physical Address</div>
-              <div id="content-physical-address">1200 W 3rd St, Little Rock, AR 72201</div>
-            </div>
-            <div class="tablet:grid-col-4">
-              <div class="text-bold">Email Address</div>
-              <div id="content-email-address">m.johnson@email.com</div>
-            </div>
-            <div class="tablet:grid-col-4">
               <div class="text-bold">How Complainant Filed</div>
               <div id="content-filing-method">Online</div>
+            </div>
+            <div class="tablet:grid-col-4">
             </div>
           </div>
 
@@ -196,7 +179,6 @@
           <div style="margin-top: 3rem;">
             <div class="text-bold">Description of Complaint</div>
             <p id="content-description">I hired Iron Shield Security LLC to provide security for a private fundraising gala on February 10, 2026. During the event, one of the guards became verbally aggressive toward a guest and physically shoved another attendee. When I asked for credentials, the guard refused and the company could not produce a valid Arkansas private security company license. I believe the company is operating without proper licensure.</p>
-            <button type="button" class="usa-button usa-button--outline" id="edit-case-subject-btn">Edit Case Subject</button>
           </div>
 
           <div class="horizontal-tabs" style="margin-top: 3rem;">
@@ -330,10 +312,57 @@
         <div style="padding-bottom: 3rem;"></div>
       </div>
 
-      <!-- ── Section 2: Documents ───────────────────────────────────────── -->
+      <!-- ── Section 2: Case Subject ─────────────────────────────────────── -->
       <div class="task-container" style="margin-top: 30px;">
         <div class="task-content-section">
-          <h3>Section 2: Documents</h3>
+          <h3>Section 2: Case Subject</h3>
+          <hr>
+
+          <p>This case may involve multiple case subjects.</p>
+
+          <div class="margin-top-2">
+            <div class="usa-accordion usa-accordion--bordered">
+              <h3 class="usa-accordion__heading">
+                <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="case-subjects-icon-key-content">
+                  Icon Key
+                </button>
+              </h3>
+              <div id="case-subjects-icon-key-content" class="usa-accordion__content usa-prose" hidden="">
+                <p class="text-bold margin-0 margin-bottom-2">Options and Control Types</p>
+                <div class="icon-key-grid">
+                  <div class="icon-key-item">
+                    <img src="assets/icon-delete.png" alt="" width="24" height="24">
+                    <span>- Delete Case Subject</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="margin-top-2">
+            <table class="usa-table usa-table--borderless usa-table--striped" id="case-subjects-table">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">License Number</th>
+                  <th scope="col">License Type</th>
+                  <th scope="col">Physical Address</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Controls</th>
+                </tr>
+              </thead>
+              <tbody id="case-subjects-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div style="padding-bottom: 3rem;"></div>
+      </div>
+
+      <!-- ── Section 3: Documents ───────────────────────────────────────── -->
+      <div class="task-container" style="margin-top: 30px;">
+        <div class="task-content-section">
+          <h3>Section 3: Documents</h3>
           <hr>
 
           <p>Upload supporting documents for this case.</p>
@@ -394,10 +423,10 @@
         <div style="padding-bottom: 3rem;"></div>
       </div>
 
-      <!-- ── Section 3: Notes ───────────────────────────────────────────── -->
+      <!-- ── Section 4: Notes ───────────────────────────────────────────── -->
       <div class="task-container" style="margin-top: 30px;">
         <div class="task-content-section">
-          <h3>Section 3: Notes</h3>
+          <h3>Section 4: Notes</h3>
           <hr>
 
           <p>Add notes to document observations, updates, or other relevant information for this case.</p>
@@ -462,75 +491,6 @@
       </div>
 
     </main>
-  </div>
-
-  <!-- Edit Case Subject Modal -->
-  <div id="edit-subject-modal" class="modal-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="edit-subject-modal-title">
-    <div class="modal-content" style="max-width: 1000px;">
-      <div class="modal-header">
-        <h2 class="modal-title" id="edit-subject-modal-title">Edit Case Subject Information</h2>
-        <button type="button" class="modal-close" id="edit-subject-modal-close" aria-label="Close modal">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="grid-row grid-gap-4">
-          <div class="tablet:grid-col-4">
-            <label class="usa-label" for="edit-subject-search-name">Name</label>
-            <input class="usa-input" id="edit-subject-search-name" type="text">
-          </div>
-          <div class="tablet:grid-col-4">
-            <label class="usa-label" for="edit-subject-search-license">License Number</label>
-            <input class="usa-input" id="edit-subject-search-license" type="text">
-          </div>
-          <div class="tablet:grid-col-4">
-            <label class="usa-label" for="edit-subject-search-address">Physical Address</label>
-            <input class="usa-input" id="edit-subject-search-address" type="text">
-          </div>
-        </div>
-        <div class="margin-top-2">
-          <button type="button" class="usa-button" id="edit-subject-search-btn">Search</button>
-          <button type="button" class="usa-button usa-button--outline" id="edit-subject-clear-btn">Clear Search</button>
-        </div>
-        <div id="edit-subject-results-container" style="display: none; margin-top: 2rem;">
-          <div class="table-controls" style="margin-bottom: 0.5rem;">
-            <div class="table-controls__left">
-              <strong id="edit-subject-results-count">Showing 1 - 10 of 10 Entries</strong>
-            </div>
-            <div class="table-controls__right">
-              <label for="edit-subject-entries-per-page" class="table-controls__label">Show</label>
-              <select class="usa-select table-controls__select" id="edit-subject-entries-per-page">
-                <option value="100" selected>100</option>
-                <option value="50">50</option>
-                <option value="25">25</option>
-                <option value="10">10</option>
-              </select>
-            </div>
-          </div>
-          <div style="max-height: 320px; overflow-y: auto; border: 1px solid #dfe1e2;">
-            <table class="usa-table usa-table--borderless usa-table--striped" style="width: 100%; margin: 0;">
-              <thead>
-                <tr>
-                  <th scope="col" style="position: sticky; top: 0; background: #fff; z-index: 1;">Select</th>
-                  <th scope="col" style="position: sticky; top: 0; background: #fff; z-index: 1;">Name</th>
-                  <th scope="col" style="position: sticky; top: 0; background: #fff; z-index: 1;">License Number</th>
-                  <th scope="col" style="position: sticky; top: 0; background: #fff; z-index: 1;">License Type</th>
-                  <th scope="col" style="position: sticky; top: 0; background: #fff; z-index: 1;">Practice Address</th>
-                </tr>
-              </thead>
-              <tbody id="edit-subject-results-tbody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <hr style="margin: 0;">
-      <div class="modal-footer" style="padding-top: 2rem;">
-        <button type="button" class="usa-button" id="update-subject-btn" disabled>Update Subject</button>
-        <button type="button" class="usa-button usa-button--secondary" id="edit-subject-cancel-btn">Cancel</button>
-      </div>
-    </div>
   </div>
 
   <!-- Close Case Modal -->
@@ -742,6 +702,26 @@
 
     const statusClassMap = { 'Open': 'status-open', 'Pending': 'status-pending', 'Closed': 'status-archived' };
 
+    const licenseTypeMap = { PI: 'Private Investigator', SB: 'Security Business', AG: 'Armed Guard', FD: 'Firearms Dealer' };
+    function licenseTypeFromNumber(licenseNumber) {
+      if (!licenseNumber) return '';
+      return licenseTypeMap[licenseNumber.split('-')[0]] || '';
+    }
+
+    function addCaseSubjectRow(subject) {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${subject.name}</td>
+        <td>${subject.licenseNumber}</td>
+        <td>${subject.licenseType}</td>
+        <td>${subject.physicalAddress}</td>
+        <td>${subject.email}</td>
+        <td>
+          <a href="#" class="icon-button" aria-label="Delete Case Subject"><img src="assets/icon-delete.png" alt="" width="30" height="30"></a>
+        </td>`;
+      document.getElementById('case-subjects-tbody').appendChild(row);
+    }
+
     if (c) {
       document.getElementById('breadcrumb-case-number').textContent = caseNumber;
       document.getElementById('case-detail-title').textContent = 'Case Details: ' + caseNumber;
@@ -753,12 +733,9 @@
       document.getElementById('content-case-number').textContent = caseNumber;
       document.getElementById('content-date-received').textContent = c.dateReceived;
       document.getElementById('content-complainant-name').textContent = c.complainantName;
-      document.getElementById('content-case-subject-name').textContent = c.caseSubject;
-      document.getElementById('content-license-number').textContent = c.licenseNumber;
-      document.getElementById('content-physical-address').textContent = c.physicalAddress;
-      document.getElementById('content-email-address').textContent = c.emailAddress;
       document.getElementById('content-filing-method').textContent = c.filingMethod;
       document.getElementById('content-incident-date').textContent = c.incidentDate;
+      addCaseSubjectRow({ name: c.caseSubject, licenseNumber: c.licenseNumber, licenseType: licenseTypeFromNumber(c.licenseNumber), physicalAddress: c.physicalAddress, email: c.emailAddress });
       const statusEl = document.getElementById('content-status');
       statusEl.textContent = c.status;
       statusEl.className = statusClassMap[c.status] || '';
@@ -1078,91 +1055,12 @@
       }
     });
 
-    const editSubjectSubjectData = [
-      { name: 'Anderson, Derek',        licenseNumber: 'PI-2023-00145', licenseType: 'Private Investigator', practiceAddress: '123 Main St, Little Rock, AR 72201',        email: 'd.anderson@email.com' },
-      { name: 'Apex Security Solutions', licenseNumber: 'SB-2022-00891', licenseType: 'Security Business',    practiceAddress: '4500 Cantrell Rd, Little Rock, AR 72207',   email: 'info@apexsecurity.com' },
-      { name: 'Brooks, Terrence',        licenseNumber: 'PI-2024-00312', licenseType: 'Private Investigator', practiceAddress: '789 Oak Ave, Fayetteville, AR 72701',        email: 't.brooks@email.com' },
-      { name: 'Capitol Shield LLC',      licenseNumber: 'SB-2021-01203', licenseType: 'Security Business',    practiceAddress: '300 W Capitol Ave, Little Rock, AR 72201',   email: 'contact@capitolshield.com' },
-      { name: 'Evans, Michelle',         licenseNumber: 'AG-2023-00567', licenseType: 'Armed Guard',          practiceAddress: '2200 Kavanaugh Blvd, Little Rock, AR 72205', email: 'm.evans@email.com' },
-      { name: 'Frontier Defense Group',  licenseNumber: 'SB-2020-00445', licenseType: 'Security Business',    practiceAddress: '1100 Rogers Ave, Fort Smith, AR 72901',      email: 'info@frontierdefense.com' },
-      { name: 'Harris, Calvin',          licenseNumber: 'PI-2025-00089', licenseType: 'Private Investigator', practiceAddress: '501 Union St, Jonesboro, AR 72401',          email: 'c.harris@email.com' },
-      { name: 'Iron Guard Services',     licenseNumber: 'SB-2023-00734', licenseType: 'Security Business',    practiceAddress: '888 S College Ave, Fayetteville, AR 72701',  email: 'ops@ironguard.com' },
-      { name: 'Jackson, Renee',          licenseNumber: 'AG-2024-00201', licenseType: 'Armed Guard',          practiceAddress: '640 Garland Ave, Fayetteville, AR 72701',    email: 'r.jackson@email.com' },
-      { name: 'Summit Protection Inc',   licenseNumber: 'SB-2022-01089', licenseType: 'Security Business',    practiceAddress: '2050 N College Ave, Fayetteville, AR 72703', email: 'info@summitprotection.com' }
-    ];
-
-    const editSubjectModal = document.getElementById('edit-subject-modal');
-
-    function closeEditSubjectModal() {
-      editSubjectModal.setAttribute('hidden', '');
-      document.getElementById('edit-subject-search-name').value = '';
-      document.getElementById('edit-subject-search-license').value = '';
-      document.getElementById('edit-subject-search-address').value = '';
-      document.getElementById('edit-subject-results-container').style.display = 'none';
-      document.getElementById('edit-subject-results-tbody').innerHTML = '';
-      document.getElementById('update-subject-btn').disabled = true;
-    }
-
-    document.getElementById('edit-case-subject-btn').addEventListener('click', () => {
-      editSubjectModal.removeAttribute('hidden');
-    });
-
-    document.getElementById('edit-subject-modal-close').addEventListener('click', closeEditSubjectModal);
-    document.getElementById('edit-subject-cancel-btn').addEventListener('click', closeEditSubjectModal);
-    editSubjectModal.addEventListener('click', e => { if (e.target === editSubjectModal) closeEditSubjectModal(); });
-
-    document.getElementById('edit-subject-search-btn').addEventListener('click', () => {
-      const nameVal    = document.getElementById('edit-subject-search-name').value.trim().toLowerCase();
-      const licenseVal = document.getElementById('edit-subject-search-license').value.trim().toLowerCase();
-      const addressVal = document.getElementById('edit-subject-search-address').value.trim().toLowerCase();
-      const filtered = editSubjectSubjectData.filter(s =>
-        (!nameVal    || s.name.toLowerCase().includes(nameVal)) &&
-        (!licenseVal || s.licenseNumber.toLowerCase().includes(licenseVal)) &&
-        (!addressVal || s.practiceAddress.toLowerCase().includes(addressVal))
-      );
-      const tbody = document.getElementById('edit-subject-results-tbody');
-      tbody.innerHTML = '';
-      filtered.forEach((s, i) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td><input type="radio" name="edit-subject-select" data-index="${editSubjectSubjectData.indexOf(s)}" aria-label="Select ${s.name}" style="width: 1.8rem; height: 1.8rem; cursor: pointer;"></td>
-          <td>${s.name}</td>
-          <td>${s.licenseNumber}</td>
-          <td>${s.licenseType}</td>
-          <td>${s.practiceAddress}</td>`;
-        tbody.appendChild(row);
-      });
-      tbody.querySelectorAll('input[type="radio"]').forEach(radio => {
-        radio.addEventListener('change', () => {
-          document.getElementById('update-subject-btn').disabled = false;
-        });
-      });
-      const count = filtered.length;
-      document.getElementById('edit-subject-results-count').textContent =
-        count === 0 ? 'No results found' : 'Showing 1 - ' + count + ' of ' + count + ' Entries';
-      document.getElementById('edit-subject-results-container').style.display = '';
-      document.getElementById('update-subject-btn').disabled = true;
-    });
-
-    document.getElementById('edit-subject-clear-btn').addEventListener('click', () => {
-      document.getElementById('edit-subject-search-name').value = '';
-      document.getElementById('edit-subject-search-license').value = '';
-      document.getElementById('edit-subject-search-address').value = '';
-      document.getElementById('edit-subject-results-container').style.display = 'none';
-      document.getElementById('edit-subject-results-tbody').innerHTML = '';
-      document.getElementById('update-subject-btn').disabled = true;
-    });
-
-    document.getElementById('update-subject-btn').addEventListener('click', () => {
-      const selected = document.querySelector('input[name="edit-subject-select"]:checked');
-      if (!selected) return;
-      const s = editSubjectSubjectData[parseInt(selected.getAttribute('data-index'), 10)];
-      document.getElementById('header-case-subject').textContent = s.name;
-      document.getElementById('content-case-subject-name').textContent = s.name;
-      document.getElementById('content-license-number').textContent = s.licenseNumber;
-      document.getElementById('content-physical-address').textContent = s.practiceAddress;
-      showNotification('Case subject updated successfully.');
-      closeEditSubjectModal();
+    document.getElementById('case-subjects-tbody').addEventListener('click', e => {
+      const btn = e.target.closest('[aria-label="Delete Case Subject"]');
+      if (btn) {
+        e.preventDefault();
+        btn.closest('tr').remove();
+      }
     });
 
     // Create Hearing modal
