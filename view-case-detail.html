@@ -485,7 +485,7 @@
             <button type="button" class="usa-button usa-button--outline" id="cancel-btn">Cancel</button>
           </div>
           <div>
-            <button type="button" class="usa-button usa-button--accent-warm">Generate Invoice</button>
+            <button type="button" class="usa-button usa-button--accent-warm" id="generate-invoice-btn">Generate Invoice</button>
           </div>
         </div>
       </div>
@@ -671,6 +671,39 @@
     </div>
   </div>
 
+  <!-- Generate Invoice Modal -->
+  <div id="generate-invoice-modal" class="modal-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="generate-invoice-modal-title">
+    <div class="modal-content" style="max-width: 700px;">
+      <div class="modal-header">
+        <h2 class="modal-title" id="generate-invoice-modal-title">Generate Invoice</h2>
+        <button type="button" class="modal-close" id="generate-invoice-modal-close" aria-label="Close modal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Select a Case Subject to generate an invoice. An invoice will be created for the selected subject only.</p>
+        <table class="usa-table usa-table--borderless usa-table--striped" style="width: 100%;">
+          <thead>
+            <tr>
+              <th scope="col">Select</th>
+              <th scope="col">Name</th>
+              <th scope="col">License Number</th>
+              <th scope="col">License Type</th>
+            </tr>
+          </thead>
+          <tbody id="generate-invoice-tbody"></tbody>
+        </table>
+      </div>
+      <hr style="margin: 0;">
+      <div class="modal-footer" style="padding-top: 2rem;">
+        <button type="button" class="usa-button" id="generate-invoice-confirm-btn" disabled>Generate Invoice</button>
+        <button type="button" class="usa-button usa-button--secondary" id="generate-invoice-cancel-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <div id="success-notification" class="notification" hidden>
     <svg class="notification-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
       <circle cx="12" cy="12" r="10" fill="#00a91c" stroke="#00a91c" stroke-width="2"/>
@@ -736,6 +769,7 @@
       document.getElementById('content-filing-method').textContent = c.filingMethod;
       document.getElementById('content-incident-date').textContent = c.incidentDate;
       addCaseSubjectRow({ name: c.caseSubject, licenseNumber: c.licenseNumber, licenseType: licenseTypeFromNumber(c.licenseNumber), physicalAddress: c.physicalAddress, email: c.emailAddress });
+      addCaseSubjectRow({ name: 'Ramirez, Sofia', licenseNumber: 'PI-2023-00476', licenseType: licenseTypeFromNumber('PI-2023-00476'), physicalAddress: '87 Maple Grove Dr, Little Rock, AR 72205', email: 's.ramirez@email.com' });
       const statusEl = document.getElementById('content-status');
       statusEl.textContent = c.status;
       statusEl.className = statusClassMap[c.status] || '';
@@ -1128,6 +1162,49 @@
         e.preventDefault();
         btn.closest('tr').remove();
       }
+    });
+
+    // Generate Invoice modal
+    const generateInvoiceModal = document.getElementById('generate-invoice-modal');
+
+    function closeGenerateInvoiceModal() {
+      generateInvoiceModal.setAttribute('hidden', '');
+      document.getElementById('generate-invoice-tbody').innerHTML = '';
+      document.getElementById('generate-invoice-confirm-btn').disabled = true;
+    }
+
+    document.getElementById('generate-invoice-btn').addEventListener('click', () => {
+      const tbody = document.getElementById('generate-invoice-tbody');
+      tbody.innerHTML = '';
+      document.querySelectorAll('#case-subjects-tbody tr').forEach((row, i) => {
+        const cells = row.querySelectorAll('td');
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+          <td><input type="radio" name="generate-invoice-select" data-name="${cells[0].textContent}" aria-label="Select ${cells[0].textContent}" style="width: 1.8rem; height: 1.8rem; cursor: pointer;"></td>
+          <td>${cells[0].textContent}</td>
+          <td>${cells[1].textContent}</td>
+          <td>${cells[2].textContent}</td>`;
+        tbody.appendChild(newRow);
+      });
+      tbody.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+          document.getElementById('generate-invoice-confirm-btn').disabled = false;
+        });
+      });
+      document.getElementById('generate-invoice-confirm-btn').disabled = true;
+      generateInvoiceModal.removeAttribute('hidden');
+    });
+
+    document.getElementById('generate-invoice-modal-close').addEventListener('click', closeGenerateInvoiceModal);
+    document.getElementById('generate-invoice-cancel-btn').addEventListener('click', closeGenerateInvoiceModal);
+    generateInvoiceModal.addEventListener('click', e => { if (e.target === generateInvoiceModal) closeGenerateInvoiceModal(); });
+
+    document.getElementById('generate-invoice-confirm-btn').addEventListener('click', () => {
+      const selected = document.querySelector('input[name="generate-invoice-select"]:checked');
+      if (!selected) return;
+      const name = selected.getAttribute('data-name');
+      closeGenerateInvoiceModal();
+      showNotification('Invoice generated for ' + name + '.');
     });
   </script>
 </body>
